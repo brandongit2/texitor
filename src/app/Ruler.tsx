@@ -12,7 +12,7 @@ export default function Ruler(): ReactElement | null {
 
 	return (
 		<div>
-			<Slider.Root className="relative flex select-none touch-none w-full" defaultValue={[0, 50]} max={100} step={1}>
+			<Slider.Root className="relative flex select-none touch-none w-full" defaultValue={[25, 75]} max={100} step={1}>
 				<Slider.Track className="border-t border-b grow w-full relative border-stone-400 h-3">
 					<Slider.Range className="absolute bg-yellow-200 h-full mx-auto" />
 				</Slider.Track>

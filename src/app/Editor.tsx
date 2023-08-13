@@ -1,20 +1,16 @@
 "use client"
 
-import {useState} from "react"
-import {createEditor} from "slate"
-import {Editable, Slate, withReact} from "slate-react"
+import {Editable} from "slate-react"
 
 import type {ReactElement} from "react"
 
-import Toolbar from "./Toolbar"
+import Leaf from "@/components/slate/Leaf"
 
 export default function Editor(): ReactElement | null {
-	const [editor] = useState(() => withReact(createEditor()))
-
 	return (
-		<Slate editor={editor} initialValue={[{type: `paragraph`, children: [{text: ``}]}]}>
-			<Editable className="border border-black" />
-			<Toolbar />
-		</Slate>
+		<Editable
+			renderLeaf={(props) => <Leaf {...props} />}
+			className="border border-black h-96 w-[60rem] max-w-full mx-auto"
+		/>
 	)
 }

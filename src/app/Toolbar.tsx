@@ -1,21 +1,36 @@
 import {useSlate} from "slate-react"
 
-import type {ReactElement} from "react"
+import type {MouseEventHandler, ReactElement, ReactNode} from "react"
+
+import TexitorEditor from "@/components/slate/TexitorEditor"
 
 export default function Toolbar(): ReactElement | null {
 	const editor = useSlate()
 
 	return (
-		<div className="bg-slate-700 w-fit fixed bottom-4 left-1/2 -translate-x-1/2 rounded border border-slate-200 text-white px-4 py-2 flex gap-4">
-			<button
-				type="button"
-				onClick={() => editor.insertNode({type: `paragraph`, children: [{text: ``}]}, {at: [editor.children.length]})}
-			>
-				add block
-			</button>
-			<button type="button" onClick={() => editor.addMark(``, true)}>
-				bold
-			</button>
+		<div className="flex gap-2">
+			<ToolbarButton onClick={() => TexitorEditor.toggleBoldMark(editor)}>
+				<span className="font-bold">B</span>
+			</ToolbarButton>
+			<ToolbarButton onClick={() => TexitorEditor.toggleItalicMark(editor)}>
+				<span className="italic">I</span>
+			</ToolbarButton>
+			<ToolbarButton onClick={() => TexitorEditor.toggleUnderlineMark(editor)}>
+				<span className="underline">U</span>
+			</ToolbarButton>
 		</div>
+	)
+}
+
+type ToolbarButtonProps = {
+	children: ReactNode
+	onClick?: MouseEventHandler<HTMLButtonElement> | undefined
+}
+
+function ToolbarButton({children, onClick}: ToolbarButtonProps): ReactElement | null {
+	return (
+		<button type="button" onClick={onClick} className="hover:bg-black/20 transition-colors rounded w-6 h-6 text-base">
+			{children}
+		</button>
 	)
 }
