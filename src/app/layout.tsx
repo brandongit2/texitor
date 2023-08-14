@@ -2,6 +2,7 @@ import {Anek_Latin} from "next/font/google"
 
 import type {ReactElement, ReactNode} from "react"
 
+import ClientStuff from "./ClientStuff"
 import "./styles.css"
 
 const anek = Anek_Latin({
@@ -19,8 +20,12 @@ export type RootLayoutProps = {
 
 export default function RootLayout({children}: RootLayoutProps): ReactElement | null {
 	return (
-		<html lang="en">
-			<body className={anek.className}>{children}</body>
-		</html>
+		<>
+			<html lang="en">
+				<body className={anek.className}>{children}</body>
+			</html>
+
+			<ClientStuff />
+		</>
 	)
 }
