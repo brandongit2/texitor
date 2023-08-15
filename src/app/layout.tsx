@@ -1,5 +1,7 @@
+import clsx from "clsx"
 import {Anek_Latin} from "next/font/google"
 
+import type {Metadata} from "next"
 import type {ReactElement, ReactNode} from "react"
 
 import ClientStuff from "./ClientStuff"
@@ -10,8 +12,9 @@ const anek = Anek_Latin({
 	subsets: ["latin"],
 })
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: `Texitor`,
+	viewport: `width=device-width, user-scalable=no, interactive-widget=resizes-content`,
 }
 
 export type RootLayoutProps = {
@@ -21,8 +24,8 @@ export type RootLayoutProps = {
 export default function RootLayout({children}: RootLayoutProps): ReactElement | null {
 	return (
 		<>
-			<html lang="en">
-				<body className={anek.className}>{children}</body>
+			<html lang="en" className="h-[100dvh]">
+				<body className={clsx(anek.className, `h-full`)}>{children}</body>
 			</html>
 
 			<ClientStuff />

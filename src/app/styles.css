@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-	--visual-viewport-bottom-offset: 0px;
+	--visual-viewport-height: 100dvh;
+	--estimated-visual-viewport-height: calc(100dvh - 269px); /* iOS default keyboard height */
 }
 
 input[data-wrapped] {

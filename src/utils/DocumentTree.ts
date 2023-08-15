@@ -5,11 +5,15 @@ import type {DocumentState, Path, Section} from "./useDocumentState"
 import useDocumentState from "./useDocumentState"
 
 const DocumentTree = {
-	addSection: (data: Omit<Section, "id" | "root" | "childrenIds">, path: Path): string => {
+	addSection: (
+		data: Omit<Section, "id" | "root" | "childrenIds" | "childrenIdsUnordered">,
+		path: Path,
+		unordered: boolean = false,
+	): string => {
 		const id = nanoid()
 		useDocumentState.setState((state) => {
 			let currentSection: Section | undefined = DocumentTree.getRootSection(state)
-			for (let i = 0; i < path.length - 1; i++) {
+			for (let i = 0; i < (unordered ? path.length : path.length - 1); i++) {
 				const pathSegment = path[i]
 				const index = getIndexFromPathSegment(pathSegment, currentSection.childrenIds.length)
 				currentSection = DocumentTree.getSectionById(state, currentSection!.childrenIds[index])
@@ -21,17 +25,22 @@ const DocumentTree = {
 				id,
 				root: false,
 				childrenIds: [],
+				childrenIdsUnordered: [],
 			}
-			let index = path.at(-1)!
-			index = index < 0 ? currentSection.childrenIds.length + index + 1 : index
-			currentSection.childrenIds.splice(index, 0, newSection.id)
+			if (unordered) {
+				currentSection.childrenIdsUnordered.push(newSection.id)
+			} else {
+				let index = path.at(-1)!
+				index = index < 0 ? currentSection.childrenIds.length + index + 1 : index
+				currentSection.childrenIds.splice(index, 0, newSection.id)
+			}
 			state.sections.push(newSection)
 		})
 
 		return id
 	},
 
-	getChildrenSections: (documentState: DocumentState, id: string): Section[] => {
+	getChildSections: (documentState: DocumentState, id: string): Section[] => {
 		const section = DocumentTree.getSectionById(documentState, id)
 		if (!section) return []
 
@@ -69,6 +78,15 @@ const DocumentTree = {
 		if (!parentSection) return []
 
 		return parentSection.childrenIds
+			.map((id) => DocumentTree.getSectionById(documentState, id))
+			.filter((section): section is Section => section !== undefined)
+	},
+
+	getUnorderedChildSections: (documentState: DocumentState, id: string): Section[] => {
+		const section = DocumentTree.getSectionById(documentState, id)
+		if (!section) return []
+
+		return section.childrenIdsUnordered
 			.map((id) => DocumentTree.getSectionById(documentState, id))
 			.filter((section): section is Section => section !== undefined)
 	},

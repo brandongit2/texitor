@@ -9,6 +9,7 @@ export type Section = {
 	title: string
 	root: boolean
 	childrenIds: string[]
+	childrenIdsUnordered: string[]
 }
 
 export type DocumentState = {
@@ -23,6 +24,7 @@ const useDocumentState = create(
 				title: `[root section]`,
 				root: true,
 				childrenIds: [],
+				childrenIdsUnordered: [],
 			},
 		],
 	})),

@@ -8,8 +8,12 @@ export default function ClientStuff(): ReactElement | null {
 	useEffect(() => {
 		const onResize = () => {
 			document.documentElement.style.setProperty(
-				`--visual-viewport-bottom-offset`,
-				`${window.visualViewport ? window.innerHeight - window.visualViewport.height : 0}px`,
+				`--estimated-visual-viewport-height`,
+				`${window.visualViewport ? window.visualViewport.height : window.innerHeight}px`,
+			)
+			document.documentElement.style.setProperty(
+				`--visual-viewport-height`,
+				`${window.visualViewport ? window.visualViewport.height : window.innerHeight}px`,
 			)
 		}
 
