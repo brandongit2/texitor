@@ -5,3 +5,12 @@
 :root {
 	--visual-viewport-bottom-offset: 0px;
 }
+
+input[data-wrapped] {
+	border: 1px solid theme("colors.neutral.300");
+	padding: theme("spacing.1");
+}
+
+input:not([data-wrapped]) {
+	background: transparent;
+}
